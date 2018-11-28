@@ -12,7 +12,7 @@ countWindow = nil
 logoutWindow = nil
 exitWindow = nil
 bottomSplitter = nil
-limitedZoom = false
+limitedZoom = true
 currentViewMode = 0
 smartWalkDirs = {}
 smartWalkDir = nil
@@ -66,6 +66,10 @@ function init()
 
   bindKeys()
 
+  -- ZOOM OUT E TITLE E TUTORIAL WINDOW
+  gameMapPanel:zoomOut()
+  g_window.setTitle('The Forgotten Tibia')
+
   if g_game.isOnline() then
     show()
   end
@@ -97,12 +101,12 @@ function bindKeys()
   bindTurnKey('Ctrl+Numpad4', West)
 
   g_keyboard.bindKeyPress('Escape', function() g_game.cancelAttackAndFollow() end, gameRootPanel)
-  g_keyboard.bindKeyPress('Ctrl+=', function() gameMapPanel:zoomIn() end, gameRootPanel)
-  g_keyboard.bindKeyPress('Ctrl+-', function() gameMapPanel:zoomOut() end, gameRootPanel)
+  --g_keyboard.bindKeyPress('Ctrl+=', function() gameMapPanel:zoomIn() end, gameRootPanel)
+  --g_keyboard.bindKeyPress('Ctrl+-', function() gameMapPanel:zoomOut() end, gameRootPanel)
   g_keyboard.bindKeyDown('Ctrl+Q', function() tryLogout(false) end, gameRootPanel)
   g_keyboard.bindKeyDown('Ctrl+L', function() tryLogout(false) end, gameRootPanel)
   g_keyboard.bindKeyDown('Ctrl+W', function() g_map.cleanTexts() modules.game_textmessage.clearMessages() end, gameRootPanel)
-  g_keyboard.bindKeyDown('Ctrl+.', nextViewMode, gameRootPanel)
+  --g_keyboard.bindKeyDown('Ctrl+.', nextViewMode, gameRootPanel)
 end
 
 function bindWalkKey(key, dir)
@@ -180,7 +184,7 @@ function show()
       gameMapPanel:setMaxZoomOut(513)
       gameMapPanel:setLimitVisibleRange(false)
     else
-      gameMapPanel:setMaxZoomOut(11)
+      gameMapPanel:setMaxZoomOut(13)
       gameMapPanel:setLimitVisibleRange(true)
     end
   end)
@@ -530,12 +534,13 @@ function createThingMenu(menuPosition, lookThing, useThing, creatureThing)
     menu:addSeparator()
 
     if creatureThing:isLocalPlayer() then
-      menu:addOption(tr('Set Outfit'), function() g_game.requestOutfit() end)
+      menu:addOption(tr('Character Mastery'), function() g_game.talk('!skills mastery') end)
+      menu:addOption(tr('Set Outfit and Mount'), function() g_game.requestOutfit() end)
 
       if g_game.getFeature(GamePlayerMounts) then
-        if not localPlayer:isMounted() then
-          menu:addOption(tr('Mount'), function() localPlayer:mount() end)
-        else
+        if --[[not]] localPlayer:isMounted() then
+          --menu:addOption(tr('Mount'), function() localPlayer:mount() end)
+        --else
           menu:addOption(tr('Dismount'), function() localPlayer:dismount() end)
         end
       end
@@ -618,6 +623,8 @@ function createThingMenu(menuPosition, lookThing, useThing, creatureThing)
 
     menu:addSeparator()
     menu:addOption(tr('Copy Name'), function() g_window.setClipboardText(creatureThing:getName()) end)
+    menu:addOption(tr('Autoloot Gold Coins'), function() g_game.talk('!autoloot gold') end)
+    menu:addOption(tr('Autoloot Addon Items'), function() g_game.talk('!autoloot addons') end)
   end
 
   -- hooked menu options

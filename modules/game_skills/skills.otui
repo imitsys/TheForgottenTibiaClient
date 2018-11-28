@@ -66,7 +66,7 @@ MiniWindow
       id: health
       height: 15
       SkillNameLabel
-        !text: tr('Hit Points')
+        !text: tr('Health')
       SkillValueLabel
 
     SkillButton
@@ -80,7 +80,7 @@ MiniWindow
       id: soul
       height: 15
       SkillNameLabel
-        !text: tr('Soul Points')
+        !text: tr('Soul')
       SkillValueLabel
 
     SkillButton
@@ -94,7 +94,14 @@ MiniWindow
       id: speed
       height: 15
       SkillNameLabel
-        !text: tr('Speed')
+        !text: tr('Walk Speed')
+      SkillValueLabel
+
+    SkillButton
+      id: attackspeed
+      height: 15
+      SkillNameLabel
+        !text: tr('Attack Speed')
       SkillValueLabel
 
     SkillButton
@@ -102,6 +109,7 @@ MiniWindow
       SkillNameLabel
         !text: tr('Regeneration Time')
       SkillValueLabel
+      SkillPercentPanel
 
     SkillButton
       id: stamina
@@ -111,68 +119,60 @@ MiniWindow
       SkillPercentPanel
 
     SkillButton
-      id: offlineTraining
-      SkillNameLabel
-        !text: tr('Offline Training')
-      SkillValueLabel
-      SkillPercentPanel
-
-    SkillButton
       id: magiclevel
+      height: 15
       SkillNameLabel
-        !text: tr('Magic Level')
+        !text: tr('Magic')
       SkillValueLabel
-      SkillPercentPanel
-        background-color: red
 
     SkillButton
       id: skillId0
+      height: 15
       SkillNameLabel
-        !text: tr('Fist Fighting')
+        !text: tr('Vitality')
       SkillValueLabel
-      SkillPercentPanel
 
     SkillButton
       id: skillId1
+      height: 15
       SkillNameLabel
-        !text: tr('Club Fighting')
+        !text: tr('Strenght')
       SkillValueLabel
-      SkillPercentPanel
-
-    SkillButton
-      id: skillId2
-      SkillNameLabel
-        !text: tr('Sword Fighting')
-      SkillValueLabel
-      SkillPercentPanel
-
-    SkillButton
-      id: skillId3
-      SkillNameLabel
-        !text: tr('Axe Fighting')
-      SkillValueLabel
-      SkillPercentPanel
-
-    SkillButton
-      id: skillId4
-      SkillNameLabel
-        !text: tr('Distance Fighting')
-      SkillValueLabel
-      SkillPercentPanel
 
     SkillButton
       id: skillId5
+      height: 15
       SkillNameLabel
-        !text: tr('Shielding')
+        !text: tr('Defence')
       SkillValueLabel
-      SkillPercentPanel
+
+    SkillButton
+      id: skillId4
+      height: 15
+      SkillNameLabel
+        !text: tr('Dexterity')
+      SkillValueLabel
+
+    SkillButton
+      id: skillId3
+      height: 15
+      SkillNameLabel
+        !text: tr('Intelligence')
+      SkillValueLabel
+
+    SkillButton
+      id: skillId2
+      height: 15
+      SkillNameLabel
+        !text: tr('Faith')
+      SkillValueLabel
 
     SkillButton
       id: skillId6
+      height: 15
       SkillNameLabel
-        !text: tr('Fishing')
+        !text: tr('Endurance')
       SkillValueLabel
-      SkillPercentPanel
 
     SmallSkillButton
       id: skillId7
@@ -201,11 +201,11 @@ MiniWindow
     SmallSkillButton
       id: skillId11
       SkillNameLabel
-        !text: tr('Life Leech Chance')
+        !text: tr('Mana Leech Chance')
       SkillValueLabel
 
     SmallSkillButton
       id: skillId12
       SkillNameLabel
-        !text: tr('Life Leech Amount')
+        !text: tr('Mana Leech Amount')
       SkillValueLabel

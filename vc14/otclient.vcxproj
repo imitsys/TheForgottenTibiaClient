@@ -22,6 +22,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{17A8F78F-1FFB-4128-A3B3-59CC6C19D89A}</ProjectGuid>
     <RootNamespace>otclient</RootNamespace>
+    <ProjectName>TheForgottenTibia</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -120,6 +121,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <WarningLevel>Level4</WarningLevel>
+      <AdditionalIncludeDirectories>C:\vcpkg\buildtrees\boost-thread\src\ost-1.67.0-bfe975a53d\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -452,9 +454,13 @@
     <ClInclude Include="..\src\framework\util\size.h" />
     <ClInclude Include="..\src\framework\xml\tinystr.h" />
     <ClInclude Include="..\src\framework\xml\tinyxml.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\src\otcicon.rc" />
+    <ResourceCompile Include="TheForgottenTibia.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\TheForgottenTibiaIcons\forgottentibiaicon_8JB_icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -11,7 +11,7 @@ function init()
     onFreeCapacityChange = onFreeCapacityChange,
     onTotalCapacityChange = onTotalCapacityChange,
     onStaminaChange = onStaminaChange,
-    onOfflineTrainingChange = onOfflineTrainingChange,
+   -- onOfflineTrainingChange = onOfflineTrainingChange,
     onRegenerationChange = onRegenerationChange,
     onSpeedChange = onSpeedChange,
     onBaseSpeedChange = onBaseSpeedChange,
@@ -28,9 +28,7 @@ function init()
   skillsButton = modules.client_topmenu.addRightGameToggleButton('skillsButton', tr('Skills') .. ' (Ctrl+S)', '/images/topbuttons/skills', toggle)
   skillsButton:setOn(true)
   skillsWindow = g_ui.loadUI('skills', modules.game_interface.getRightPanel())
-
   g_keyboard.bindKeyDown('Ctrl+S', toggle)
-
   refresh()
   skillsWindow:setup()
 end
@@ -45,7 +43,7 @@ function terminate()
     onFreeCapacityChange = onFreeCapacityChange,
     onTotalCapacityChange = onTotalCapacityChange,
     onStaminaChange = onStaminaChange,
-    onOfflineTrainingChange = onOfflineTrainingChange,
+ --   onOfflineTrainingChange = onOfflineTrainingChange,
     onRegenerationChange = onRegenerationChange,
     onSpeedChange = onSpeedChange,
     onBaseSpeedChange = onBaseSpeedChange,
@@ -102,10 +100,35 @@ function setSkillBase(id, value, baseValue)
   end
 end
 
-function setSkillValue(id, value)
+--CHANGED!!!!!!!!!!!!
+function setSkillValue(localPlayer, id, value)
   local skill = skillsWindow:recursiveGetChildById(id)
   local widget = skill:getChildById('value')
   widget:setText(value)
+
+  local skillMagic = skillsWindow:recursiveGetChildById('magiclevel')
+  skillMagic:setTooltip('Gives more spell and rune power and +15 mana')
+
+  local skillVitality = skillsWindow:recursiveGetChildById('skillId0')
+  skillVitality:setTooltip('Gives +15 health')
+
+  local skillStrenght = skillsWindow:recursiveGetChildById('skillId1')
+  skillStrenght:setTooltip('Gives more melee and distance damage and +5 capacity')
+
+  local skillFaith = skillsWindow:recursiveGetChildById('skillId2')
+  skillFaith:setTooltip('Gives +2% of maximum damage for rod, access to support and healing spells and +10 mana')
+
+  local skillIntelligence = skillsWindow:recursiveGetChildById('skillId3')
+  skillIntelligence:setTooltip('Gives +1% of maximum damage for wand, access to attack spells and +10 mana')
+
+  local skillDexterity = skillsWindow:recursiveGetChildById('skillId4')
+  skillDexterity:setTooltip('Gives more distance damage, +0.25 walk speed and +0.25 attack speed')
+
+  local skillResistance = skillsWindow:recursiveGetChildById('skillId5')
+  skillResistance:setTooltip('Gives more shield defence and +5 health')
+
+  local skillEndurance = skillsWindow:recursiveGetChildById('skillId6')
+  skillEndurance:setTooltip('Gives +15 capacity and +5 Health')
 end
 
 function setSkillColor(id, value)
@@ -177,13 +200,13 @@ function checkAlert(id, value, maxValue, threshold, greaterThan)
 end
 
 function update()
-  local offlineTraining = skillsWindow:recursiveGetChildById('offlineTraining')
+--[[ local offlineTraining = skillsWindow:recursiveGetChildById('offlineTraining')
   if not g_game.getFeature(GameOfflineTrainingTime) then
     offlineTraining:hide()
   else
     offlineTraining:show()
   end
-
+]]
   local regenerationTime = skillsWindow:recursiveGetChildById('regenerationTime')
   if not g_game.getFeature(GamePlayerRegenerationTime) then
     regenerationTime:hide()
@@ -207,7 +230,7 @@ function refresh()
   onFreeCapacityChange(player, player:getFreeCapacity())
   onStaminaChange(player, player:getStamina())
   onMagicLevelChange(player, player:getMagicLevel(), player:getMagicLevelPercent())
-  onOfflineTrainingChange(player, player:getOfflineTrainingTime())
+--  onOfflineTrainingChange(player, player:getOfflineTrainingTime())
   onRegenerationChange(player, player:getRegenerationTime())
   onSpeedChange(player, player:getSpeed())
 
@@ -226,7 +249,8 @@ function refresh()
   local contentsPanel = skillsWindow:getChildById('contentsPanel')
   skillsWindow:setContentMinimumHeight(44)
   if hasAdditionalSkills then
-    skillsWindow:setContentMaximumHeight(480)
+    --skillsWindow:setContentMaximumHeight(480)
+    skillsWindow:setContentMaximumHeight(425)
   else
     skillsWindow:setContentMaximumHeight(390)
   end
@@ -281,11 +305,11 @@ function onSkillButtonClick(button)
 end
 
 function onExperienceChange(localPlayer, value)
-  setSkillValue('experience', value)
+  setSkillValue(localPlayer, 'experience', value)
 end
 
 function onLevelChange(localPlayer, value, percent)
-  setSkillValue('level', value)
+  setSkillValue(localPlayer, 'level', value)
   local text = tr('You have %s percent to go', 100 - percent) .. '\n' ..
                tr('%s of experience left', expToAdvance(localPlayer:getLevel(), localPlayer:getExperience()))
 
@@ -305,21 +329,21 @@ function onLevelChange(localPlayer, value, percent)
 end
 
 function onHealthChange(localPlayer, health, maxHealth)
-  setSkillValue('health', health)
+  setSkillValue(localPlayer, 'health', health)
   checkAlert('health', health, maxHealth, 30)
 end
 
 function onManaChange(localPlayer, mana, maxMana)
-  setSkillValue('mana', mana)
+  setSkillValue(localPlayer, 'mana', mana)
   checkAlert('mana', mana, maxMana, 30)
 end
 
 function onSoulChange(localPlayer, soul)
-  setSkillValue('soul', soul)
+  setSkillValue(localPlayer, 'soul', soul)
 end
 
 function onFreeCapacityChange(localPlayer, freeCapacity)
-  setSkillValue('capacity', freeCapacity)
+  setSkillValue(localPlayer, 'capacity', freeCapacity)
   checkAlert('capacity', freeCapacity, localPlayer:getTotalCapacity(), 20)
 end
 
@@ -335,12 +359,12 @@ function onStaminaChange(localPlayer, stamina)
   end
   local percent = math.floor(100 * stamina / (42 * 60)) -- max is 42 hours
 
-  setSkillValue('stamina', hours .. ":" .. minutes)
+  setSkillValue(localPlayer, 'stamina', hours .. ":" .. minutes)
   setSkillPercent('stamina', percent, tr('You have %s percent', percent))
 end
 
 function onOfflineTrainingChange(localPlayer, offlineTrainingTime)
-  if not g_game.getFeature(GameOfflineTrainingTime) then
+ --[[ if not g_game.getFeature(GameOfflineTrainingTime) then
     return
   end
   local hours = math.floor(offlineTrainingTime / 60)
@@ -350,8 +374,8 @@ function onOfflineTrainingChange(localPlayer, offlineTrainingTime)
   end
   local percent = 100 * offlineTrainingTime / (12 * 60) -- max is 12 hours
 
-  setSkillValue('offlineTraining', hours .. ":" .. minutes)
-  setSkillPercent('offlineTraining', percent, tr('You have %s percent', percent))
+  setSkillValue(localPlayer, 'offlineTraining', hours .. ":" .. minutes)
+  setSkillPercent('offlineTraining', percent, tr('You have %s percent', percent))]]
 end
 
 function onRegenerationChange(localPlayer, regenerationTime)
@@ -364,13 +388,12 @@ function onRegenerationChange(localPlayer, regenerationTime)
     seconds = '0' .. seconds
   end
 
-  setSkillValue('regenerationTime', minutes .. ":" .. seconds)
+  setSkillValue(localPlayer, 'regenerationTime', minutes .. ":" .. seconds)
   checkAlert('regenerationTime', regenerationTime, false, 300)
 end
 
 function onSpeedChange(localPlayer, speed)
-  setSkillValue('speed', speed)
-
+  setSkillValue(localPlayer, 'speed', speed)
   onBaseSpeedChange(localPlayer, localPlayer:getBaseSpeed())
 end
 
@@ -379,23 +402,25 @@ function onBaseSpeedChange(localPlayer, baseSpeed)
 end
 
 function onMagicLevelChange(localPlayer, magiclevel, percent)
-  setSkillValue('magiclevel', magiclevel)
+  setSkillValue(localPlayer, 'magiclevel', magiclevel)
   setSkillPercent('magiclevel', percent, tr('You have %s percent to go', 100 - percent))
 
   onBaseMagicLevelChange(localPlayer, localPlayer:getBaseMagicLevel())
 end
+
 
 function onBaseMagicLevelChange(localPlayer, baseMagicLevel)
   setSkillBase('magiclevel', localPlayer:getMagicLevel(), baseMagicLevel)
 end
 
 function onSkillChange(localPlayer, id, level, percent)
-  setSkillValue('skillId' .. id, level)
+  setSkillValue(localPlayer, 'skillId' .. id, level)
   setSkillPercent('skillId' .. id, percent, tr('You have %s percent to go', 100 - percent))
-
+  setSkillValue(localPlayer, 'attackspeed', ((localPlayer:getSkillBaseLevel(4) - 8)/4 + 100) .. "%")
   onBaseSkillChange(localPlayer, id, localPlayer:getSkillBaseLevel(id))
 end
 
 function onBaseSkillChange(localPlayer, id, baseLevel)
-  setSkillBase('skillId'..id, localPlayer:getSkillLevel(id), baseLevel)
+  setSkillBase('skillId'.. id, localPlayer:getSkillLevel(id), baseLevel)
+  setSkillValue(localPlayer, 'attackspeed', ((localPlayer:getSkillBaseLevel(4) - 8)/4 + 100) .. "%")
 end
